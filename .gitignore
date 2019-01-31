@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /channel-artifacts/*.tx
 /channel-artifacts/*.block
 /crypto-config/*
@@ -5,6 +6,8 @@
 /ledgers
 /ledgers-backup
 
+=======
+>>>>>>> fcebf36bbeef86000a5d432c7a17856623e185bb
 # Logs
 logs
 *.log
