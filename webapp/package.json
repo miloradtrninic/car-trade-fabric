@@ -1,0 +1,25 @@
+{
+  "name": "car-sale",
+  "version": "1.0.0",
+  "description": "",
+  "main": "enroll.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miloradtrninic/car-trade-fabric.git"
+  },
+  "author": "Milorad Trninic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miloradtrninic/car-trade-fabric/issues"
+  },
+  "homepage": "https://github.com/miloradtrninic/car-trade-fabric#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "fabric-ca-client": "^1.4.0",
+    "fabric-client": "^1.4.0"
+  }
+}
