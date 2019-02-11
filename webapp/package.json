@@ -17,9 +17,13 @@
   },
   "homepage": "https://github.com/miloradtrninic/car-trade-fabric#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "fabric-ca-client": "^1.4.0",
-    "fabric-client": "^1.4.0"
+    "fabric-client": "^1.4.0",
+    "fabric-network": "^1.4.0",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.11"
   }
 }

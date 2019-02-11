@@ -6,7 +6,7 @@ const path = require('path');
 // Bring Fabric SDK network class
 const { FileSystemWallet, Gateway } = require('fabric-network');
 
-let walletDir = path.join(path.dirname(require.main.filename),'/_idwallet');
+let walletDir = path.join(__dirname,'/_idwallet');
 const wallet = new FileSystemWallet(walletDir);
 
 const ccpPath = path.resolve(__dirname, 'connection.json');
@@ -15,7 +15,12 @@ const connectionProfile = JSON.parse(ccpJSON);
 
 const channel = "defaultchannel";
 const contractName = "carsale";
-const user = "User1@org1.example.com";
+const user = "user1@org1.example.com";
+
+
+exports.testFunction = async function(req, res, next) {
+  res.send({'result': 'success'})
+}
 
 exports.changeColor = async function(req, res, next) {
   try {
