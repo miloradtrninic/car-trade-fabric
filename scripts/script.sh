@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 echo
 echo " ____    _____      _      ____    _____ "
 echo "/ ___|  |_   _|    / \    |  _ \  |_   _|"
@@ -60,18 +61,18 @@ createChannel() {
 joinChannel () {
 	for org in 1 2; do
 	    for peer in 0 1 2; do
-		joinChannelWithRetry $peer $org
-		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
-		sleep $DELAY
-		echo
+			joinChannelWithRetry $peer $org
+			echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+			sleep $DELAY
+			echo
 	    done
 	done
 	for org in 3 4; do
 	    for peer in 0 1 2 3; do
-		joinChannelWithRetry $peer $org
-		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
-		sleep $DELAY
-		echo
+			joinChannelWithRetry $peer $org
+			echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+			sleep $DELAY
+			echo
 	    done
 	done
 }

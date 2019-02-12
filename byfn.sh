@@ -410,7 +410,7 @@ function generateChannelArtifacts() {
   echo "CONSENSUS_TYPE="$CONSENSUS_TYPE
   set -x
   if [ "$CONSENSUS_TYPE" == "solo" ]; then
-    configtxgen -profile TwoOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
+    configtxgen -profile FourOrgsOrdererGenesis -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
   elif [ "$CONSENSUS_TYPE" == "kafka" ]; then
     configtxgen -profile SampleDevModeKafka -channelID byfn-sys-channel -outputBlock ./channel-artifacts/genesis.block
   else
@@ -467,7 +467,7 @@ function generateChannelArtifacts() {
   
   echo
   echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org2MSP   ##########"
+  echo "#######    Generating anchor peer update for Org3MSP   ##########"
   echo "#################################################################"
   set -x
   configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
@@ -475,14 +475,14 @@ function generateChannelArtifacts() {
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
+    echo "Failed to generate anchor peer update for Org3MSP..."
     exit 1
   fi
   echo
   
   echo
   echo "#################################################################"
-  echo "#######    Generating anchor peer update for Org2MSP   ##########"
+  echo "#######    Generating anchor peer update for Org4MSP   ##########"
   echo "#################################################################"
   set -x
   configtxgen -profile FourOrgsChannel -outputAnchorPeersUpdate \
@@ -490,7 +490,7 @@ function generateChannelArtifacts() {
   res=$?
   set +x
   if [ $res -ne 0 ]; then
-    echo "Failed to generate anchor peer update for Org2MSP..."
+    echo "Failed to generate anchor peer update for Org4MSP..."
     exit 1
   fi
   echo
