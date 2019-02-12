@@ -1,0 +1,21 @@
+version: '2'
+
+networks:
+  byfn:
+    driver: bridge
+
+services:
+  webapp:
+    image: webapp
+    ports:
+    - "3000:3000"
+    depends_on:
+    - mongo
+    networks: 
+    - byfn
+  mongo:
+    image: mongo
+    ports:
+    - "27017:27017"
+    networks: 
+    - byfn

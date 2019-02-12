@@ -29,6 +29,20 @@ networks:
   byfn:
 
 services:
+  webapp:
+    image: webapp
+    ports:
+    - "3000:3000"
+    depends_on:
+    - mongo
+    networks: 
+    - byfn
+  mongo:
+    image: mongo
+    ports:
+    - "27017:27017"
+    networks: 
+    - byfn
   ca0:
     image: hyperledger/fabric-ca:$IMAGE_TAG
     environment:

@@ -22,7 +22,7 @@ router.post('/register', function(req, res) {
     function (err, user) {
       if (err) return res.status(500).send("There was a problem registering the user.")
       // create a token
-      var token = jwt.sign({ id: user._id }, config.secret, {
+      var token = jwt.sign({ id: user.email }, config.secret, {
         expiresIn: 86400 // expires in 24 hours
       });
       res.status(200).send({ auth: true, token: token });
@@ -30,16 +30,23 @@ router.post('/register', function(req, res) {
   });
 
 router.post('/login', function(req, res) {
-
-
+    User.findOne(req.body.email, function (err, user) {
+        if (err) return res.status(500).send("There was a problem finding the user.");
+        if (!user) return res.status(404).send("No user found.");
+        if(!bcrypt.compareSync(user.password, bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8)))) return res.status(401).send("Password does not match.")
+        var token = jwt.sign({ id: user.email }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+        });
+        res.status(200).send({ auth: true, token: token });
+    });
 });
 
-router.get('/authenticate', function(req, res) {
+router.post('/authenticate', function(req, res) {
     var token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     jwt.verify(token, config.secret, function(err, decoded) {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' }); 
-        User.findById(decoded.id, function (err, user) {
+        User.findOne(decoded.email, function (err, user) {
             if (err) return res.status(500).send("There was a problem finding the user.");
             if (!user) return res.status(404).send("No user found.");
             res.status(200).send(decoded);
@@ -47,21 +54,16 @@ router.get('/authenticate', function(req, res) {
     });
 });
 
-exports.isPasswordAndUserMatch = (req, res, next) => {
-    User.findByUsername(req.body.username)
-        .then((user)=>{
-            if(!user[0]){
-                res.status(404).send({});
-            }else{
-                const passwordHash = user[0].password;
-                
-                if (hash === passwordFields[1]) {
-                    return next();
-                } else {
-                    return res.status(401).send({errors: ['Invalid email or password']});
-                }
-            }
+module.exports.isTokenValid = (req, res, next) => {
+    var token = req.headers['x-access-token'];
+    if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+    jwt.verify(token, config.secret, function(err, decoded) {
+        User.findOne({'email': decoded.email}, function(err, user) {
+            if (err) return res.status(500).send("There was a problem finding the user.");
+            if (!user) return res.status(404).send("No user found.");
+            return next();
         });
+    });
  };
 
 
