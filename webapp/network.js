@@ -13,9 +13,9 @@ const ccpPath = path.resolve(__dirname, 'connection.json');
 const ccpJSON = fs.readFileSync(ccpPath, 'utf8');
 const connectionProfile = JSON.parse(ccpJSON);
 
-const channel = "defaultchannel";
-const contractName = "carsale";
-const user = "user1@org1.example.com";
+const channel = "mychannel";
+const contractName = "mycc";
+const user = "Admin@org1.example.com";
 
 
 exports.testFunction = async function(req, res, next) {

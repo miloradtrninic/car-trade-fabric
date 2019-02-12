@@ -59,7 +59,15 @@ createChannel() {
 
 joinChannel () {
 	for org in 1 2; do
-	    for peer in 0 1; do
+	    for peer in 0 1 2; do
+		joinChannelWithRetry $peer $org
+		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
+		sleep $DELAY
+		echo
+	    done
+	done
+	for org in 3 4; do
+	    for peer in 0 1 2 3; do
 		joinChannelWithRetry $peer $org
 		echo "===================== peer${peer}.org${org} joined channel '$CHANNEL_NAME' ===================== "
 		sleep $DELAY
@@ -81,32 +89,58 @@ echo "Updating anchor peers for org1..."
 updateAnchorPeers 0 1
 echo "Updating anchor peers for org2..."
 updateAnchorPeers 0 2
+echo "Updating anchor peers for org3..."
+updateAnchorPeers 0 3
+echo "Updating anchor peers for org4..."
+updateAnchorPeers 0 4
 
-## Install chaincode on peer0.org1 and peer0.org2
+## Install chaincode 
 echo "Installing chaincode on peer0.org1..."
 installChaincode 0 1
-echo "Install chaincode on peer0.org2..."
-installChaincode 0 2
+echo "Installing chaincode on peer0.org1..."
+installChaincode 1 1
+echo "Installing chaincode on peer0.org1..."
+installChaincode 2 1
 
-# Instantiate chaincode on peer0.org2
+echo "Installing chaincode on peer0.org2..."
+installChaincode 0 2
+echo "Installing chaincode on peer1.org2..."
+installChaincode 1 2
+echo "Installing chaincode on peer2.org2..."
+installChaincode 2 2
+
+echo "Installing chaincode on peer0.org3..."
+installChaincode 0 3
+echo "Installing chaincode on peer1.org3..."
+installChaincode 1 3
+echo "Installing chaincode on peer2.org3..."
+installChaincode 2 3
+echo "Installing chaincode on peer3.org3..."
+installChaincode 3 3
+
+echo "Installing chaincode on peer0.org4..."
+installChaincode 0 4
+echo "Installing chaincode on peer1.org4..."
+installChaincode 1 4
+echo "Installing chaincode on peer2.org4..."
+installChaincode 2 4
+echo "Installing chaincode on peer3.org4..."
+installChaincode 3 4
+
+
+# Instantiate chaincode
 echo "Instantiating chaincode on peer0.org2..."
 instantiateChaincode 0 2
 
 # Query chaincode on peer0.org1
-echo "Querying chaincode on peer0.org1..."
-chaincodeQuery 0 1 100
+#echo "Querying chaincode on peer0.org1..."
+#chaincodeQuery 0 1 100
 
 # Invoke chaincode on peer0.org1 and peer0.org2
-echo "Sending invoke transaction on peer0.org1 peer0.org2..."
-chaincodeInvoke 0 1 0 2
+echo "Sending invoke transaction on peer0.org1"
+chaincodeInvoke 0 1
 
-## Install chaincode on peer1.org2
-echo "Installing chaincode on peer1.org2..."
-installChaincode 1 2
 
-# Query on chaincode on peer1.org2, check if the result is 90
-echo "Querying chaincode on peer1.org2..."
-chaincodeQuery 1 2 90
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "
