@@ -156,6 +156,7 @@ function networkUp() {
     replacePrivateKey
     generateChannelArtifacts
   fi
+
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
       IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
@@ -169,6 +170,9 @@ function networkUp() {
       IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
     fi
   fi
+  export FABRIC_START_TIMEOUT=90
+  echo "Fabric start timeout ${FABRIC_START_TIMEOUT} "
+  sleep ${FABRIC_START_TIMEOUT}
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"
     exit 1
