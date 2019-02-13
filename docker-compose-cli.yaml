@@ -179,8 +179,6 @@ services:
       service: peer3.org4.example.com
     networks:
       - byfn
-
-
   cli:
     container_name: cli
     image: hyperledger/fabric-tools:$IMAGE_TAG

@@ -189,7 +189,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer1.org3.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org3.example.com:/var/hyperledger/production
+        - peer1.org3.example.com:/var/hyperledger/production
     ports:
       - 14051:7051
       - 14053:7053
@@ -208,7 +208,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer2.org3.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer2.org3.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org3.example.com:/var/hyperledger/production
+        - peer2.org3.example.com:/var/hyperledger/production
     ports:
       - 15051:7051
       - 15053:7053
@@ -227,7 +227,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer3.org3.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org3.example.com/peers/peer3.org3.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org3.example.com:/var/hyperledger/production
+        - peer3.org3.example.com:/var/hyperledger/production
     ports:
       - 16051:7051
       - 16053:7053
@@ -267,7 +267,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer1.org4.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer1.org4.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org4.example.com:/var/hyperledger/production
+        - peer1.org4.example.com:/var/hyperledger/production
     ports:
       - 18051:7051
       - 18053:7053
@@ -286,7 +286,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer2.org4.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer2.org4.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org4.example.com:/var/hyperledger/production
+        - peer2.org4.example.com:/var/hyperledger/production
     ports:
       - 19051:7051
       - 19053:7053
@@ -305,7 +305,7 @@ services:
         - /var/run/:/host/var/run/
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer3.org4.example.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/org4.example.com/peers/peer3.org4.example.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.org4.example.com:/var/hyperledger/production
+        - peer3.org4.example.com:/var/hyperledger/production
     ports:
       - 20051:7051
       - 20053:7053
