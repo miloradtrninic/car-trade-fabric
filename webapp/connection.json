@@ -1,5 +1,5 @@
 {
-    "name": "carsale-network",
+    "name": "byfn",
     "version": "1.0.0",
     "client": {
         "organization": "Org1",
@@ -35,17 +35,17 @@
     },
     "orderers": {
         "orderer.example.com": {
-            "url": "grpc://localhost:7050"
+            "url": "grpc://orderer.example.com:7050"
         }
     },
     "peers": {
         "peer0.org1.example.com": {
-            "url": "grpc://localhost:7051"
+            "url": "grpc://peer0.org1.example.com:7051"
         }
     },
     "certificateAuthorities": {
         "ca-org1": {
-            "url": "http://localhost:7054",
+            "url": "http://ca0:7054",
             "caName": "ca-org1"
         }
     }

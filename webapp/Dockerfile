@@ -3,7 +3,7 @@ FROM node:carbon
 WORKDIR /usr/src/app
 # Install app dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install --loglevel verbose
 # Copy app source code
 COPY . .
 #Expose port and start application

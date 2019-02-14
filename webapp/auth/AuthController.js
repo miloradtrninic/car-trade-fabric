@@ -54,7 +54,7 @@ router.post('/authenticate', function(req, res) {
     });
 });
 
-module.exports.isTokenValid = (req, res, next) => {
+router.isTokenValid = function(req, res, next) {
     var token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     jwt.verify(token, config.secret, function(err, decoded) {

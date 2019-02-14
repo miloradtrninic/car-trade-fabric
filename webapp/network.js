@@ -15,7 +15,7 @@ const connectionProfile = JSON.parse(ccpJSON);
 
 const channel = "mychannel";
 const contractName = "mycc";
-const user = "Admin@org1.example.com";
+const user = "Admin";
 
 
 exports.testFunction = async function(req, res, next) {
@@ -57,12 +57,12 @@ exports.getByColor = async function(req, res, next) {
     const color = req.body.color;
 
     const response = await contract.evaluateTransaction('getByColor', color);
-    var cars = JSON.parse(JSON.parse(response.toString()));
+    var cars = JSON.parse(response.toString());
 
     console.log('Disconnect from Fabric gateway.');
     console.log('getByColor Complete');
     await gateway.disconnect();
-    res.send({'result': 'success', 'orders': cars});
+    res.send({'result': 'success', 'cars': cars});
   } catch (error) {
     console.log(`Error processing transaction. ${error}`);
     console.log(error.stack);
@@ -83,7 +83,7 @@ exports.getByColorOwner = async function(req, res, next) {
     const owner = req.body.owner;
 
     const response = await contract.evaluateTransaction('getByColorOwner', [color, owner]);
-    var cars = JSON.parse(JSON.parse(response.toString()));
+    var cars = JSON.parse(response.toString());
 
     console.log('Disconnect from Fabric gateway.');
     console.log('getByColorOwner Complete');
@@ -108,7 +108,7 @@ exports.getCarHistory = async function(req, res, next) {
     const chassis = req.body.chassis;
 
     const response = await contract.evaluateTransaction('getCarHistory', [chassis]);
-    var cars = JSON.parse(JSON.parse(response.toString()));
+    var cars = JSON.parse(response.toString());
 
     console.log('Disconnect from Fabric gateway.');
     console.log('getCarHistory Complete');

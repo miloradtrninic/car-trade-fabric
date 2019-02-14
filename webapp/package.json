@@ -24,7 +24,6 @@
     "fabric-client": "^1.4.0",
     "fabric-network": "^1.4.0",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.4.11",
-    "socket.io-client": "^2.2.0"
+    "mongoose": "^5.4.11"
   }
 }
