@@ -170,7 +170,7 @@ function networkUp() {
       IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
     fi
   fi
-  export FABRIC_START_TIMEOUT=90
+  export FABRIC_START_TIMEOUT=30
   echo "Fabric start timeout ${FABRIC_START_TIMEOUT} "
   sleep ${FABRIC_START_TIMEOUT}
   if [ $? -ne 0 ]; then

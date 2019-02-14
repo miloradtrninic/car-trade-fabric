@@ -30,10 +30,10 @@ router.post('/register', function(req, res) {
   });
 
 router.post('/login', function(req, res) {
-    User.findOne(req.body.email, function (err, user) {
+    User.findOne({'email': req.body.email}, function (err, user) {
         if (err) return res.status(500).send("There was a problem finding the user.");
         if (!user) return res.status(404).send("No user found.");
-        if(!bcrypt.compareSync(user.password, bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8)))) return res.status(401).send("Password does not match.")
+        if(!bcrypt.compareSync(req.body.password, bcrypt.hashSync(req.body.password, 8))) return res.status(401).send("Password does not match.")
         var token = jwt.sign({ id: user.email }, config.secret, {
             expiresIn: 86400 // expires in 24 hours
         });
@@ -46,10 +46,10 @@ router.post('/authenticate', function(req, res) {
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     jwt.verify(token, config.secret, function(err, decoded) {
         if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' }); 
-        User.findOne(decoded.email, function (err, user) {
+        User.findOne({'email': decoded.id}, function (err, user) {
             if (err) return res.status(500).send("There was a problem finding the user.");
-            if (!user) return res.status(404).send("No user found.");
-            res.status(200).send(decoded);
+            if (!user) return res.status(404).send("No user found with email " + decoded.id);
+            res.status(200).send(user);
         });
     });
 });
@@ -58,9 +58,9 @@ module.exports.isTokenValid = (req, res, next) => {
     var token = req.headers['x-access-token'];
     if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
     jwt.verify(token, config.secret, function(err, decoded) {
-        User.findOne({'email': decoded.email}, function(err, user) {
+        User.findOne({'email': decoded.id}, function(err, user) {
             if (err) return res.status(500).send("There was a problem finding the user.");
-            if (!user) return res.status(404).send("No user found.");
+            if (!user) return res.status(404).send("No user found with email " + decoded.id);
             return next();
         });
     });

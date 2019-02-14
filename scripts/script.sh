@@ -24,13 +24,13 @@ LANGUAGE=`echo "$LANGUAGE" | tr [:upper:] [:lower:]`
 COUNTER=1
 MAX_RETRY=10
 
-CC_SRC_PATH="github.com/chaincode/chaincode_example02/go/"
+CC_SRC_PATH="github.com/chaincode/car-sales/go/"
 if [ "$LANGUAGE" = "node" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/node/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/car-sales/node/"
 fi
 
 if [ "$LANGUAGE" = "java" ]; then
-	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/chaincode_example02/java/"
+	CC_SRC_PATH="/opt/gopath/src/github.com/chaincode/car-sales/java/"
 fi
 
 echo "Channel name : "$CHANNEL_NAME
@@ -130,8 +130,13 @@ installChaincode 3 4
 
 
 # Instantiate chaincode
-echo "Instantiating chaincode on peer0.org2..."
-instantiateChaincode 0 2
+echo "Instantiating chaincode on peer0.org1..."
+instantiateChaincode 0 1
+
+
+export WAIT_INSTANTIATE=30
+echo "Fabric INSTANTIATE timeout ${WAIT_INSTANTIATE} "
+sleep ${WAIT_INSTANTIATE}
 
 # Query chaincode on peer0.org1
 #echo "Querying chaincode on peer0.org1..."
