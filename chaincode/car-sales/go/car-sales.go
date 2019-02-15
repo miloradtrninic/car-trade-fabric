@@ -53,15 +53,18 @@ func (t *SmartContract) Init(stub shim.ChaincodeStubInterface) sc.Response {
 
 func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response {
 	function, args := APIstub.GetFunctionAndParameters()
+	logger := shim.NewLogger("infoLogger")
 
 	if function == "initLedger" { //create a new marble
 		return s.initLedger(APIstub)
 	} else if function == "changeColor" {
 		return s.changeColor(APIstub, args)
+	} else if function == "getByKey" {
+		return s.getByKey(APIstub, args)
 	} else if function == "getByColor" {
-		return s.getByColor(APIstub, args)
+		return s.getByColor(APIstub, logger, args)
 	} else if function == "getByColorOwner" {
-		return s.getByColor(APIstub, args)
+		return s.getByColor(APIstub, logger, args)
 	} else if function == "getCarHistory" {
 		return s.getCarHistory(APIstub, args)
 	} else if function == "changeOwner" {
@@ -76,37 +79,45 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 	}
 }
 
-func (s *SmartContract) getByColor(stub shim.ChaincodeStubInterface, args []string) sc.Response {
+func (s *SmartContract) getByColor(stub shim.ChaincodeStubInterface, logger *shim.ChaincodeLogger, args []string) sc.Response {
 	keysIter, err := stub.GetStateByRange("", "")
-	cars := make([]Car, 5)
+	cars := make([]Car, 0)
 	considerOwner := len(args) == 2
 	ownerID := 0
+	logger.Info("Started get by color %s", args[0])
 	if considerOwner {
 		ownerID, err = strconv.Atoi(args[1])
 		return shim.Error("Owner must be int")
 	}
 	if len(args) > 2 {
-		return shim.Error("Incorrect number of arguments. Only chassis number needed.")
+		return shim.Error("Incorrect number of arguments. Color (and owner).")
 	}
 
 	for keysIter.HasNext() {
+		logger.Info("Next object check")
 		carAsBytes, err := keysIter.Next()
-		var object interface{}
 		car := Car{}
 		if err != nil {
 			return shim.Error("Error while iterating through world state " + err.Error())
 		}
 
-		err = json.Unmarshal(carAsBytes.GetValue(), &object)
-		switch object.(type) {
-		case Car:
-			car = Car(object.(Car))
-		default:
-			continue
+		err = json.Unmarshal(carAsBytes.GetValue(), &car)
+		if err != nil {
+			switch err.(type) {
+			case *json.UnsupportedTypeError:
+				logger.Info("Object is not a car")
+				continue
+			default:
+				return shim.Error("Error while unmarshaling object" + err.Error())
+			}
 		}
 
-		if car.Color == args[0] || (considerOwner && car.Owner == ownerID) {
-			cars = append(cars, car)
+		if car.Color == args[0] {
+			if considerOwner && car.Owner == ownerID {
+				cars = append(cars, car)
+			} else if !considerOwner {
+				cars = append(cars, car)
+			}
 		}
 	}
 	carSliceBytes, err := json.Marshal(cars)
@@ -116,13 +127,25 @@ func (s *SmartContract) getByColor(stub shim.ChaincodeStubInterface, args []stri
 	return shim.Success(carSliceBytes)
 }
 
+func (s *SmartContract) getByKey(stub shim.ChaincodeStubInterface, args []string) sc.Response {
+	if len(args) != 1 {
+		return shim.Error("Incorrect number of arguments. Only chassis number needed.")
+	}
+
+	carAsBytes, err := stub.GetState(args[0])
+	if err != nil {
+		return shim.Error("Error while getting state" + err.Error())
+	}
+	return shim.Success(carAsBytes)
+}
+
 func (s *SmartContract) getCarHistory(stub shim.ChaincodeStubInterface, args []string) sc.Response {
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Only chassis number needed.")
 	}
 
 	it, err := stub.GetHistoryForKey(args[0])
-	history := make([]Car, 5)
+	history := make([]Car, 0)
 	if err != nil {
 		return shim.Error("Error while getting history" + err.Error())
 	}
@@ -143,7 +166,7 @@ func (s *SmartContract) getCarHistory(stub shim.ChaincodeStubInterface, args []s
 }
 
 func (s *SmartContract) changeColor(stub shim.ChaincodeStubInterface, args []string) sc.Response {
-	if len(args) != 1 {
+	if len(args) != 2 {
 		return shim.Error("Incorrect number of arguments.")
 	}
 
@@ -274,16 +297,16 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 	}
 
 	cars := []Car{
-		Car{Make: "Toyota", Model: "Prius", Color: "blue", Owner: 1},
-		Car{Make: "Ford", Model: "Mustang", Color: "red", Owner: 2},
-		Car{Make: "Hyundai", Model: "Tucson", Color: "green", Owner: 3},
-		Car{Make: "Volkswagen", Model: "Passat", Color: "yellow", Owner: 3},
-		Car{Make: "Tesla", Model: "S", Color: "black", Owner: 4},
-		Car{Make: "Peugeot", Model: "205", Color: "purple", Owner: 5},
-		Car{Make: "Chery", Model: "S22L", Color: "white", Owner: 5},
-		Car{Make: "Fiat", Model: "Punto", Color: "violet", Owner: 1},
-		Car{Make: "Tata", Model: "Nano", Color: "indigo", Owner: 3},
-		Car{Make: "Holden", Model: "Barina", Color: "brown", Owner: 4},
+		Car{Chassis: "JH4CL95877C271071", Make: "Toyota", Model: "Prius", Color: "blue", Owner: 1},
+		Car{Chassis: "5N1AN0NW4FN197748", Make: "Ford", Model: "Mustang", Color: "red", Owner: 2},
+		Car{Chassis: "2C3CDZBT8FH306479", Make: "Hyundai", Model: "Tucson", Color: "green", Owner: 3},
+		Car{Chassis: "1FM5K7B83FG612729", Make: "Volkswagen", Model: "Passat", Color: "yellow", Owner: 3},
+		Car{Chassis: "1G6AV5S84E0464733", Make: "Tesla", Model: "S", Color: "black", Owner: 4},
+		Car{Chassis: "4A31K2DF0BE184156", Make: "Peugeot", Model: "205", Color: "purple", Owner: 5},
+		Car{Chassis: "WBALZ3C56CD866601", Make: "Chery", Model: "S22L", Color: "white", Owner: 5},
+		Car{Chassis: "3VWKX7AJ8AM939252", Make: "Fiat", Model: "Punto", Color: "violet", Owner: 1},
+		Car{Chassis: "SCFEFBAC9AG437143", Make: "Tata", Model: "Nano", Color: "indigo", Owner: 3},
+		Car{Chassis: "2T1KU4EEXDC074983", Make: "Holden", Model: "Barina", Color: "brown", Owner: 4},
 	}
 
 	for i, car := range cars {

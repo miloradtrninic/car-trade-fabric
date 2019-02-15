@@ -82,7 +82,7 @@ exports.getByColorOwner = async function(req, res, next) {
     const color = req.body.color;
     const owner = req.body.owner;
 
-    const response = await contract.evaluateTransaction('getByColorOwner', [color, owner]);
+    const response = await contract.evaluateTransaction('getByColorOwner', color, owner);
     var cars = JSON.parse(response.toString());
 
     console.log('Disconnect from Fabric gateway.');
@@ -107,7 +107,7 @@ exports.getCarHistory = async function(req, res, next) {
 
     const chassis = req.body.chassis;
 
-    const response = await contract.evaluateTransaction('getCarHistory', [chassis]);
+    const response = await contract.evaluateTransaction('getCarHistory', chassis);
     var cars = JSON.parse(response.toString());
 
     console.log('Disconnect from Fabric gateway.');
@@ -135,7 +135,7 @@ exports.changeOwner = async function(req, res, next) {
     const buyer = req.body.buyer;
     const payTheDmg = req.body.payTheDmg;
 
-    const response = await contract.submitTransaction('getCarHistory', [chassis, buyer, payTheDmg]);
+    const response = await contract.submitTransaction('getCarHistory', chassis, buyer, payTheDmg);
 
     console.log('Disconnect from Fabric gateway.');
     console.log('changeOwner Complete');
@@ -161,7 +161,7 @@ exports.noteDamage = async function(req, res, next) {
     const description = req.body.description;
     const repairPrice = req.body.repairPrice;
 
-    const response = await contract.submitTransaction('noteDamage', [chassis, description, repairPrice]);
+    const response = await contract.submitTransaction('noteDamage', chassis, description, repairPrice);
 
     console.log('Disconnect from Fabric gateway.');
     console.log('noteDamage Complete');
@@ -185,7 +185,7 @@ exports.repairDamage = async function(req, res, next) {
 
     const chassis = req.body.chassis;
 
-    const response = await contract.submitTransaction('repairDamage', [chassis]);
+    const response = await contract.submitTransaction('repairDamage', chassis);
     console.log('Disconnect from Fabric gateway.');
     console.log('repairDamage Complete');
     await gateway.disconnect();

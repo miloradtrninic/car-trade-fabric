@@ -26,8 +26,8 @@ app.get("/getByColor", (req, res, next) => AuthController.isTokenValid(req, res,
     network.getByColor(req, res, next);
 });
 
-app.get("/getByColor", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
-    network.getByColor(req, res, next);
+app.get("/getByColorOwner", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
+    network.getByColorOwner(req, res, next);
 });
 
 app.get("/getCarHistory", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
@@ -43,7 +43,7 @@ app.put("/noteDamage", (req, res, next) => AuthController.isTokenValid(req, res,
 });
 
 app.put("/repairDamage", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
-    network.noteDamage(req, res, next);
+    network.repairDamage(req, res, next);
 });
 
 app.put("/initLedger", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {

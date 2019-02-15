@@ -173,6 +173,8 @@ function networkUp() {
   export FABRIC_START_TIMEOUT=30
   echo "Fabric start timeout ${FABRIC_START_TIMEOUT} "
   sleep ${FABRIC_START_TIMEOUT}
+  echo $COMPOSE_FILE
+
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Unable to start network"
     exit 1
@@ -297,9 +299,9 @@ function replacePrivateKey() {
   else
     OPTS="-i"
   fi
-
+  echo "Making new"
   # Copy the template to the file that will be modified to add the private key
-  cp docker-compose-e2e-template.yaml docker-compose-e2e.yaml
+  cp $COMPOSE_FILE docker-compose-e2e.yaml
 
   # The next steps will replace the template's contents with the
   # actual values of the private key file names for the two CAs.
@@ -316,6 +318,9 @@ function replacePrivateKey() {
   if [ "$ARCH" == "Darwin" ]; then
     rm docker-compose-e2e.yamlt
   fi
+  echo $COMPOSE_FILE
+  COMPOSE_FILE=docker-compose-e2e.yaml
+  echo $COMPOSE_FILE
 }
 
 # We will use the cryptogen tool to generate the cryptographic material (x509 certs)

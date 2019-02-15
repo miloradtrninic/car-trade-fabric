@@ -134,7 +134,7 @@ echo "Instantiating chaincode on peer0.org1..."
 instantiateChaincode 0 1
 
 
-export WAIT_INSTANTIATE=30
+export WAIT_INSTANTIATE=60
 echo "Fabric INSTANTIATE timeout ${WAIT_INSTANTIATE} "
 sleep ${WAIT_INSTANTIATE}
 
