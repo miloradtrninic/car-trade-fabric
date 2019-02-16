@@ -70,6 +70,58 @@ exports.getByColor = async function(req, res, next) {
   }
 }
 
+exports.getByKey = async function(req, res, next) {
+  try {
+    
+    const gateway = new Gateway();
+    await gateway.connect(connectionProfile, { wallet, identity: user, discovery: { enabled: false } });
+    const network = await gateway.getNetwork(channel);
+
+    const contract = await network.getContract(contractName);
+
+    const chassis = req.body.chassis;
+
+    const response = await contract.evaluateTransaction('getByKey', chassis);
+    var car = JSON.parse(response.toString());
+
+    console.log('Disconnect from Fabric gateway.');
+    console.log('getByKey Complete');
+    await gateway.disconnect();
+    res.send({'result': 'success', 'car': car});
+  } catch (error) {
+    console.log(`Error processing transaction. ${error}`);
+    console.log(error.stack);
+    res.send({'error': error.stack});
+  }
+}
+
+exports.getPersonByKey = async function(req, res, next) {
+  try {
+    
+    const gateway = new Gateway();
+    await gateway.connect(connectionProfile, { wallet, identity: user, discovery: { enabled: false } });
+    const network = await gateway.getNetwork(channel);
+
+    const contract = await network.getContract(contractName);
+
+    const id = req.body.id;
+
+    const response = await contract.evaluateTransaction('getPersonByKey', id);
+    var person = JSON.parse(response.toString());
+
+    console.log('Disconnect from Fabric gateway.');
+    console.log('getByKey Complete');
+    await gateway.disconnect();
+    res.send({'result': 'success', 'person': person});
+  } catch (error) {
+    console.log(`Error processing transaction. ${error}`);
+    console.log(error.stack);
+    res.send({'error': error.stack});
+  }
+}
+
+
+
 exports.getByColorOwner = async function(req, res, next) {
   try {
     
@@ -135,7 +187,7 @@ exports.changeOwner = async function(req, res, next) {
     const buyer = req.body.buyer;
     const payTheDmg = req.body.payTheDmg;
 
-    const response = await contract.submitTransaction('getCarHistory', chassis, buyer, payTheDmg);
+    const response = await contract.submitTransaction('changeOwner', chassis, buyer, payTheDmg);
 
     console.log('Disconnect from Fabric gateway.');
     console.log('changeOwner Complete');

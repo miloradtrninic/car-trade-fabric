@@ -30,6 +30,14 @@ app.get("/getByColorOwner", (req, res, next) => AuthController.isTokenValid(req,
     network.getByColorOwner(req, res, next);
 });
 
+app.get("/getByChassis", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
+    network.getByKey(req, res, next);
+});
+
+app.get("/getByPersonId", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
+    network.getPersonByKey(req, res, next);
+});
+
 app.get("/getCarHistory", (req, res, next) => AuthController.isTokenValid(req, res, next), (req, res, next) => {
     network.getCarHistory(req, res, next);
 });
