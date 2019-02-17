@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
@@ -24,7 +25,9 @@ func checkState(t *testing.T, stub *shim.MockStub, name string, value string) {
 		t.FailNow()
 	}
 	if string(bytes) != value {
-		fmt.Println("State value", name, "was not", value, "as expected")
+		fmt.Println("State value", name, "from world state is", string(bytes))
+		fmt.Println("State value", name, "expected is", value)
+		fmt.Println("State value as expected")
 		t.FailNow()
 	}
 }
@@ -53,12 +56,19 @@ func TestCarSales_Init(t *testing.T) {
 	stub := shim.NewMockStub("carsales", scc)
 	var functionAndArgs []string
 	functionName := "changeOwner"
+	functionAndArgs = append(functionAndArgs, functionName, "1FM5K7B83FG612729", "4", "0")
 
-	functionAndArgs = append(functionAndArgs, functionName, "1FM5K7B83FG612729", "3", "0")
+	checkInvoke(t, stub, []string{"initLedger"})
 
-	// Init A=123 B=234
-	checkInit(t, stub, [][]byte{[]byte("init"), []byte("A"), []byte("123"), []byte("B"), []byte("234")})
+	checkInvoke(t, stub, functionAndArgs)
+	car := Car{Chassis: "1FM5K7B83FG612729", Make: "Volkswagen", Model: "Passat", Color: "yellow", Owner: "4", Price: 5200.00, Year: 2008, Damages: []Damage{}}
+	seller := Person{ID: "3", FirstName: "Arlee", LastName: "Kayley", Email: "akayley2@businessinsider.com", AccountBalance: 611654.07}
+	buyer := Person{ID: "4", FirstName: "Tyson", LastName: "Chidler", Email: "tchidler3@wix.com", AccountBalance: 190881.08}
+	carAsBytes, _ := json.Marshal(car)
+	sellerAsBytes, _ := json.Marshal(seller)
+	buyerAsBytes, _ := json.Marshal(buyer)
 
-	checkState(t, stub, "A", "123")
-	checkState(t, stub, "B", "234")
+	checkState(t, stub, "1FM5K7B83FG612729", string(carAsBytes))
+	checkState(t, stub, "3", string(sellerAsBytes))
+	checkState(t, stub, "4", string(buyerAsBytes))
 }

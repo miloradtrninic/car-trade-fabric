@@ -199,6 +199,9 @@ func (s *SmartContract) changeColor(stub shim.ChaincodeStubInterface, args []str
 	if err != nil {
 		return shim.Error("Error while getting state" + err.Error())
 	}
+	if carAsBytes == nil {
+		return shim.Error("No car with chassis = " + args[0])
+	}
 	newColor := args[1]
 	car := Car{}
 
@@ -225,6 +228,9 @@ func (s *SmartContract) noteDamage(stub shim.ChaincodeStubInterface, args []stri
 	carAsBytes, err := stub.GetState(args[0])
 	if err != nil {
 		return shim.Error("Error while getting state" + err.Error())
+	}
+	if carAsBytes == nil {
+		return shim.Error("No car with chassis = " + args[0])
 	}
 	car := Car{}
 
@@ -271,6 +277,9 @@ func (s *SmartContract) repairDamage(stub shim.ChaincodeStubInterface, args []st
 	}
 
 	carAsBytes, _ := stub.GetState(args[0])
+	if carAsBytes == nil {
+		return shim.Error("Car with chassis number " + args[0] + " does not exist.")
+	}
 	car := Car{}
 	err := json.Unmarshal(carAsBytes, &car)
 	if err != nil {
@@ -278,8 +287,10 @@ func (s *SmartContract) repairDamage(stub shim.ChaincodeStubInterface, args []st
 	}
 	car.Damages = make([]Damage, 0)
 
-	carAsBytes, _ = json.Marshal(car)
-
+	carAsBytes, err = json.Marshal(car)
+	if err != nil {
+		shim.Error("Error while marshaling car with number " + car.Chassis + " " + err.Error())
+	}
 	err = stub.PutState(args[0], carAsBytes)
 	if err != nil {
 		shim.Error("Error while saving car with number " + car.Chassis + " " + err.Error())
@@ -377,16 +388,16 @@ func (s *SmartContract) initLedger(APIstub shim.ChaincodeStubInterface) sc.Respo
 	}
 
 	cars := []Car{
-		Car{Chassis: "JH4CL95877C271071", Make: "Toyota", Model: "Prius", Color: "blue", Owner: "1"},
-		Car{Chassis: "5N1AN0NW4FN197748", Make: "Ford", Model: "Mustang", Color: "red", Owner: "2"},
-		Car{Chassis: "2C3CDZBT8FH306479", Make: "Hyundai", Model: "Tucson", Color: "green", Owner: "3"},
-		Car{Chassis: "1FM5K7B83FG612729", Make: "Volkswagen", Model: "Passat", Color: "yellow", Owner: "3"},
-		Car{Chassis: "1G6AV5S84E0464733", Make: "Tesla", Model: "S", Color: "black", Owner: "4"},
-		Car{Chassis: "4A31K2DF0BE184156", Make: "Peugeot", Model: "205", Color: "purple", Owner: "5"},
-		Car{Chassis: "WBALZ3C56CD866601", Make: "Chery", Model: "S22L", Color: "white", Owner: "5"},
-		Car{Chassis: "3VWKX7AJ8AM939252", Make: "Fiat", Model: "Punto", Color: "violet", Owner: "1"},
-		Car{Chassis: "SCFEFBAC9AG437143", Make: "Tata", Model: "Nano", Color: "indigo", Owner: "3"},
-		Car{Chassis: "2T1KU4EEXDC074983", Make: "Holden", Model: "Barina", Color: "brown", Owner: "4"},
+		Car{Chassis: "JH4CL95877C271071", Make: "Toyota", Model: "Prius", Color: "blue", Owner: "1", Price: 3000.00, Year: 2010, Damages: []Damage{}},
+		Car{Chassis: "5N1AN0NW4FN197748", Make: "Ford", Model: "Mustang", Color: "red", Owner: "2", Price: 200000.00, Year: 2010, Damages: []Damage{}},
+		Car{Chassis: "2C3CDZBT8FH306479", Make: "Hyundai", Model: "Tucson", Color: "green", Owner: "3", Price: 10000.00, Year: 20160, Damages: []Damage{}},
+		Car{Chassis: "1FM5K7B83FG612729", Make: "Volkswagen", Model: "Passat", Color: "yellow", Owner: "3", Price: 5200.00, Year: 2008, Damages: []Damage{}},
+		Car{Chassis: "1G6AV5S84E0464733", Make: "Tesla", Model: "S", Color: "black", Owner: "4", Price: 22000.00, Year: 2016, Damages: []Damage{}},
+		Car{Chassis: "4A31K2DF0BE184156", Make: "Peugeot", Model: "205", Color: "purple", Owner: "5", Price: 800.00, Year: 2000, Damages: []Damage{}},
+		Car{Chassis: "WBALZ3C56CD866601", Make: "Chery", Model: "S22L", Color: "white", Owner: "5", Price: 8000.00, Year: 2015, Damages: []Damage{}},
+		Car{Chassis: "3VWKX7AJ8AM939252", Make: "Fiat", Model: "Punto", Color: "violet", Owner: "1", Price: 1000.00, Year: 2003, Damages: []Damage{}},
+		Car{Chassis: "SCFEFBAC9AG437143", Make: "Tata", Model: "Nano", Color: "indigo", Owner: "3", Price: 500.00, Year: 2005, Damages: []Damage{}},
+		Car{Chassis: "2T1KU4EEXDC074983", Make: "Holden", Model: "Barina", Color: "brown", Owner: "4", Price: 3800.00, Year: 2010, Damages: []Damage{}},
 	}
 
 	for i, car := range cars {

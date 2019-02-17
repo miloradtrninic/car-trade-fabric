@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "1a1fa086-bc60-431c-9078-eca217651c0e",
+		"name": "CarSale_Fabric",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/auth/register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\" : \"mile\",\n\t\"password\": \"mile\",\n\t\"email\" : \"mile@example.com\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/auth/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\" : \"mile@example.com\",\n\t\"password\": \"mile\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/getByColor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAzMjUwMzIsImV4cCI6MTU1MDQxMTQzMn0.TYN5qkHSpGTx0TDz6QvM7kjcO1tS0YqyoTapvvIKRME",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"color\" : \"green\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/getByColor",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getByColor"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/getByChassis",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAzMjg0OTcsImV4cCI6MTU1MDQxNDg5N30.JfO9cMsQgbtJ99hsL2xnLvCaB8TRADPl3UxMw0imdt0",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"chassis\" : \"5N1AN0NW4FN197748\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/getByChassis",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getByChassis"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/getByPersonId",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAzMjg0OTcsImV4cCI6MTU1MDQxNDg5N30.JfO9cMsQgbtJ99hsL2xnLvCaB8TRADPl3UxMw0imdt0",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"id\" : \"2\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/getByPersonId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getByPersonId"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/getCarHistory",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAzMjU2NjgsImV4cCI6MTU1MDQxMjA2OH0.0ZrbApOGCqG_3_fO7PTgEUkMNQ3TPyPCaYqhNUrtYcw",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"chassis\" : \"5N1AN0NW4FN197748\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/getCarHistory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getCarHistory"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/noteDamage",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAxNjI0NzQsImV4cCI6MTU1MDI0ODg3NH0.xxA2sk2IdmeK8lbyRXjHp8LKjFeYqOytRLeoAHtLcUo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"chassis\": \"5N1AN0NW4FN197748\",\n\t\"description\": \"Osla vrata\",\n\t\"repairPrice\": \"100.00\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/noteDamage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"noteDamage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/repairDamage",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAxNjI0NzQsImV4cCI6MTU1MDI0ODg3NH0.xxA2sk2IdmeK8lbyRXjHp8LKjFeYqOytRLeoAHtLcUo",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"chassis\": \"5N1AN0NW4FN197748\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/repairDamage",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"repairDamage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/changeOwner",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Im1pbGVAZXhhbXBsZS5jb20iLCJpYXQiOjE1NTAzMjg0OTcsImV4cCI6MTU1MDQxNDg5N30.JfO9cMsQgbtJ99hsL2xnLvCaB8TRADPl3UxMw0imdt0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"chassis\": \"5N1AN0NW4FN197748\",\n\t\"buyer\": \"3\",\n\t\"payTheDmg\" : \"0\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/changeOwner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"changeOwner"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
