@@ -188,6 +188,9 @@ function networkUp() {
 
   # now run the end to end script
   docker exec cli scripts/script.sh $CHANNEL_NAME $CLI_DELAY $LANGUAGE $CLI_TIMEOUT $VERBOSE
+
+  docker exec net_webapp_1 node enrollAdmin.js
+
   if [ $? -ne 0 ]; then
     echo "ERROR !!!! Test failed"
     exit 1

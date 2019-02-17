@@ -37,6 +37,7 @@ services:
     - mongo
     networks: 
     - byfn
+    container_name: net_webapp_1
   mongo:
     image: mongo
     ports:
