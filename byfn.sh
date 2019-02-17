@@ -124,7 +124,7 @@ function checkPrereqs() {
 
   echo "LOCAL_VERSION=$LOCAL_VERSION"
   echo "DOCKER_IMAGE_VERSION=$DOCKER_IMAGE_VERSION"
-
+  echo "image tag"=$IMAGETAG
   if [ "$LOCAL_VERSION" != "$DOCKER_IMAGE_VERSION" ]; then
     echo "=================== WARNING ==================="
     echo "  Local fabric binaries and docker images are  "
@@ -157,17 +157,20 @@ function networkUp() {
     generateChannelArtifacts
   fi
 
+  export IMAGE_TAG=$IMAGETAG
+  export COMPOSE_PROJECT_NAME=net
+
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up --force-recreate -d 2>&1
+      docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up --force-recreate -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up --force-recreate -d 2>&1
+      docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up --force-recreate -d 2>&1
     fi
   else
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up --force-recreate -d 2>&1
+      docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up --force-recreate -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up --force-recreate -d 2>&1
+      docker-compose -f $COMPOSE_FILE up --force-recreate -d 2>&1
     fi
   fi
   export FABRIC_START_TIMEOUT=30
@@ -272,6 +275,8 @@ function upgradeNetwork() {
 function networkDown() {
   # stop org3 containers also in addition to org1 and org2, in case we were running sample to add org3
   # stop kafka and zookeeper containers in case we're running with kafka consensus-type
+  export IMAGE_TAG=$IMAGETAG
+  export COMPOSE_PROJECT_NAME=net
   docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_ORG3 down --volumes --remove-orphans
 
   # Don't remove the generated artifacts -- note, the ledgers are always removed

@@ -128,15 +128,19 @@ installChaincode 2 4
 echo "Installing chaincode on peer3.org4..."
 installChaincode 3 4
 
+export WAIT_INSTANTIATE=60
+echo "Fabric INSTANTIATE timeout ${WAIT_INSTANTIATE} "
+sleep ${WAIT_INSTANTIATE}
+
 
 # Instantiate chaincode
 echo "Instantiating chaincode on peer0.org1..."
 instantiateChaincode 0 1
 
 
-export WAIT_INSTANTIATE=60
-echo "Fabric INSTANTIATE timeout ${WAIT_INSTANTIATE} "
-sleep ${WAIT_INSTANTIATE}
+export WAIT_INVOKE=60
+echo "Fabric invoke timeout ${WAIT_INSTANTIATE} "
+sleep ${WAIT_INVOKE}
 
 # Query chaincode on peer0.org1
 #echo "Querying chaincode on peer0.org1..."
